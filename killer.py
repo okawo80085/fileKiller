@@ -17,7 +17,7 @@ class KILLER():
 					self.agents[i] = (os.stat(i).st_size, h.md5(f.read().encode()).hexdigest())
 
 	def __repr__(self):
-		if len(self.Folders) > 0 and len(self.Files) > 0:
+		if len(self.Folders) > 0 or len(self.Files) > 0:
 			return '<agent 47, location={},\ntargets:\n\tfiles=[{}],\n\n\tfolders=[{}]>'.format(self.rootPath, ',\n\t'.join(['"{}"'.format(i) for i in self.Files]), ',\n\t'.join(['"{}"'.format(i) for i in self.Folders]))
 
 		else:
@@ -50,10 +50,12 @@ class KILLER():
 				pp = os.path.abspath(os.path.normpath(''.join([i, '/', j])))
 				if os.path.lexists(pp):
 					if os.path.isfile(pp):
-						self.Files.append(pp)
+						if pp not in self.Files:
+							self.Files.append(pp)
 
 					elif os.path.isdir(pp):
-						self.Folders.append(pp)
+						if pp not in self.Folders:
+							self.Folders.append(pp)
 
 		self.Files, self.Folders = sorted(self.Files, key=lel)[::-1], sorted(self.Folders, key=lel)[::-1]
 
@@ -82,6 +84,9 @@ class KILLER():
 		#print (tempHash)
 
 		for agentLoc, agentId in self.agents.items():
+			if agentLoc == location:
+				return True
+
 			if agentId[0] == tempSize:
 				if agentId[1] == tempHash:
 					return True
@@ -92,14 +97,23 @@ class KILLER():
 		'''
 		deletes everything that was found by pfr(), except agents
 		'''
-
+		temp = []
 		for i in self.Files:
 			if not self.checkFromAgents(i):
 				os.unlink(i)
+
+			else:
+				temp.append(i)
+
+		self.Files = temp
+		temp = []
 
 		for i in self.Folders:
 			try:
 				os.rmdir(i)
 
 			except Exception as e:
-				print ('failed to remove \'{}\': {}, maybe an agent is inside'.format(i, e))
+				temp.append(i)
+				print ('failed to remove \'{}\': {}, agent inside or lacking permissions'.format(i, e))
+
+		self.Folders = temp
