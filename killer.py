@@ -25,9 +25,13 @@ class KILLER():
 
 	def __call__(self):
 		if os.path.exists(self.rootPath) and os.path.isdir(self.rootPath):
-			self.pfr()
-			self.kill()
-			return 'target killed'
+			if len(self.Files) > 0 or len(self.Folders):
+				self.pfr()
+				self.kill()
+				return 'target killed'
+
+			else:
+				return 'no target to kill'
 
 		else:
 			return 'target escaped (bad root path)'
