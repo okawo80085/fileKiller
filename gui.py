@@ -16,6 +16,8 @@ loc = os.getcwd()
 
 killer = KILLER('./test', me)
 
+fireInTheHole = False
+
 yes = ['y', 'ye', 'yes', 'yea', 'yeah', 'yep', 'sure']
 no = ['n', 'no', 'nah', 'nope']
 
@@ -62,9 +64,14 @@ mb.showinfo('lol', 'hahaha\ndid you really think that you can stop now?')
 killer.pfr()
 mb.showinfo('xD', 'lol\nbtw here is the guy who\'ll kill all those files of yours:\n{}'.format(killer))
 
+opStat = 'false alarm?'
+if fireInTheHole:
+	opStat = killer()
 
 #end
+print ('\n\n')
 print ('{:=^60}'.format(' report start '))
+print ('operation status: {}'.format(opStat))
 print ('agent stats after the operation:\n{}'.format(killer))
 print ('data destroyed in operation: {}'.format(killer.kills))
 print ('targets left: {}'.format(len(killer.Files) + len(killer.Folders)))
