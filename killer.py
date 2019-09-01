@@ -1,6 +1,7 @@
+# killer agent
+
 import os
 import hashlib as h
-import re
 
 class KILLER():
 	def __init__(self, rootPath, *agents):
@@ -67,10 +68,14 @@ class KILLER():
 			tempHash = 0
 		else:
 			with open(location, 'rt') as f:
-				try:
-					tempHash = h.md5(f.read().encode()).hexdigest()
+				if f.read(14) == '# killer agent':
+					try:
+						tempHash = h.md5(f.read().encode()).hexdigest()
 
-				except UnicodeDecodeError:
+					except UnicodeDecodeError:
+						tempHash = 0
+
+				else:
 					tempHash = 0
 
 		for agentLoc, agentId in self.agents.items():
