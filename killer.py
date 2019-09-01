@@ -73,9 +73,9 @@ class KILLER():
 		else:
 			with open(location, 'rt') as f:
 				try:
-					ff = f.read()
-					if ff[:14] == '# killer agent':
-						tempHash = h.md5(ff.encode()).hexdigest()
+					ff = f.read(14)
+					if ff == '# killer agent':
+						tempHash = h.md5((ff+f.read()).encode()).hexdigest()
 					else:
 						tempHash = 0
 
