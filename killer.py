@@ -3,12 +3,15 @@ import hashlib as h
 import re
 
 class KILLER():
-	def __init__(self, rootPath, excPath):
+	def __init__(self, rootPath, *agents):
 		self.Files = []
 		self.Folders = []
 		self.rootPath = rootPath
-		self.excPath = excPath
-		self.me = __file__
+		self.agents = [__file__]
+
+		for i in agents:
+			if i not in self.agents:
+				self.agents.append(i)
 
 	def __repr__(self):
 		if len(self.Folders) > 0 and len(self.Files) > 0:
