@@ -3,21 +3,28 @@ import hashlib as h
 import re
 
 class KILLER():
-	def __init__(self, rootPath):
+	def __init__(self, rootPath, excPath):
 		self.Files = []
 		self.Folders = []
 		self.rootPath = rootPath
+		self.excPath = excPath
+		self.me = __file__
 
 	def __repr__(self):
-		return '<killer (agent 47), location={}, targets: files={}, folders={}>'.format(self.rootPath, self.Files, self.Folders)
+		if len(self.Folders) > 0 and len(self.Files) > 0:
+			return '<agent 47, location={},\ntargets:\n\tfiles=[{}],\n\n\tfolders=[{}]>'.format(self.rootPath, ',\n\t'.join(['\'{}\''.format(i) for i in self.Files]), ',\n\t'.join(['\'{}\''.format(i) for i in self.Folders]))
+
+		else:
+			return '<agent 47, location={}, targets: files={}, folders={}>'.format(self.rootPath, self.Files, self.Folders)
 
 	def __call__(self):
 		if os.path.exists(self.rootPath) and os.path.isdir(self.rootPath):
 			self.pfr()
 			self.kill()
+			return 'target killed'
 
 		else:
-			print ('root path bad')
+			return 'target escaped (bad root path)'
 
 	def pfr(self):
 		'''
@@ -28,9 +35,12 @@ class KILLER():
 
 		pathList = [i[0] for i in os.walk(self.rootPath)]
 
+		self.Files = []
+		self.Folders = []
+
 		for i in pathList:
 			for j in os.listdir(i):
-				pp = os.path.normpath(''.join([i, '/', j]))
+				pp = os.path.abspath(os.path.normpath(''.join([i, '/', j])))
 				if os.path.lexists(pp):
 					if os.path.isfile(pp):
 						self.Files.append(pp)
@@ -41,6 +51,9 @@ class KILLER():
 		self.Files, self.Folders = sorted(self.Files, key=lel)[::-1], sorted(self.Folders, key=lel)[::-1]
 
 	def kill(self):
+		'''
+		deletes everything that was found by pfr()
+		'''
 		for i in self.Files:
 			os.unlink(i)
 
