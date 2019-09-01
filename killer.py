@@ -25,7 +25,7 @@ class KILLER():
 
 	def __call__(self):
 		if os.path.exists(self.rootPath) and os.path.isdir(self.rootPath):
-			if len(self.Files) > 0 or len(self.Folders):
+			if len(self.Files) > 0 or len(self.Folders) > 0:
 				self.pfr()
 				self.kill()
 				return 'target killed'
