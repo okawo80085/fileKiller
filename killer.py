@@ -8,6 +8,7 @@ class KILLER():
 		self.Files = []
 		self.Folders = []
 		self.rootPath = rootPath
+		self.kills = 0
 		with open(__file__, 'rt') as f:
 			self.agents = {__file__:(os.stat(__file__).st_size, h.md5(f.read().encode()).hexdigest())}
 
@@ -17,11 +18,7 @@ class KILLER():
 					self.agents[i] = (os.stat(i).st_size, h.md5(f.read().encode()).hexdigest())
 
 	def __repr__(self):
-		if len(self.Folders) > 0 or len(self.Files) > 0:
-			return '<agent 47, location={},\ntargets:\n\tfiles=[{}],\n\n\tfolders=[{}]>'.format(self.rootPath, ',\n\t'.join(['"{}"'.format(i) for i in self.Files]), ',\n\t'.join(['"{}"'.format(i) for i in self.Folders]))
-
-		else:
-			return '<agent 47, location={}, targets: files={}, folders={}>'.format(self.rootPath, self.Files, self.Folders)
+		return '<class killer(agent 47 if you will), kills={}, location={}, targets: nfiles={}, nfolders={}>'.format(self.kills, self.rootPath, len(self.Files), len(self.Folders))
 
 	def __call__(self):
 		if os.path.exists(self.rootPath) and os.path.isdir(self.rootPath):
@@ -104,6 +101,7 @@ class KILLER():
 		temp = []
 		for i in self.Files:
 			if not self.checkFromAgents(i):
+				self.kills += 1
 				os.unlink(i)
 
 			else:
@@ -114,6 +112,7 @@ class KILLER():
 
 		for i in self.Folders:
 			try:
+				self.kills += 1
 				os.rmdir(i)
 
 			except Exception as e:
