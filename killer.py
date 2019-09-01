@@ -18,7 +18,7 @@ class KILLER():
 					self.agents[i] = (os.stat(i).st_size, h.md5(f.read().encode()).hexdigest())
 
 	def __repr__(self):
-		return '<class killer(agent 47 if you will), kills={}, location={}, targets: nfiles={}, nfolders={}>'.format(self.kills, self.rootPath, len(self.Files), len(self.Folders))
+		return '<class killer(agent 69 if you will), kills={}, location={}, targets: nfiles={}, nfolders={}>'.format(self.kills, self.rootPath, len(self.Files), len(self.Folders))
 
 	def __call__(self):
 		if os.path.exists(self.rootPath) and os.path.isdir(self.rootPath):

