@@ -18,8 +18,10 @@ killer = KILLER('./test', me)
 
 fireInTheHole = False
 
-yes = ['y', 'ye', 'yes', 'yea', 'yeah', 'yep', 'sure']
-no = ['n', 'no', 'nah', 'nope']
+yes = True
+no = False
+
+titles = ['stop', 'just stop', 'why aren\'t you stopping?', 'it\'s time to stop']
 
 warns = {'are you sure you want to format "{}"?'.format(loc):yes,
 		'are you really sure you want to do this?':yes,
@@ -44,21 +46,23 @@ warns = {'are you sure you want to format "{}"?'.format(loc):yes,
 		}
 
 for que, rep in warns.items():
-	inn = input(que+', {}/{} '.format(random.choice(yes[1:]), random.choice(no[1:]))).lower()
+	inn = mb.askyesno(random.choice(titles), que)
 
-	#if inn not in rep:
-	#	sys.exit()
+	if inn != rep:
+		mb.showinfo('good choice!', 'your files are safe for now')
+		#sys.exit()
 
 mb.showwarning('last warning', 'all your files in\n"{}"\nwill be gone'.format(loc))
 
-inn = input('last try, stop?, {}/{} '.format(random.choice(yes[1:]), random.choice(no[1:]))).lower()
+inn = mb.askyesno('last try, stop?', 'you won\'t get another chance')
 
-#if inn not in no:
-#	sys.exit()
+if inn != no:
+	mb.showinfo('good choice!', 'your files are safe for now')
+	sys.exit()
 
 mb.showinfo('that\'s it, you\'ve done it', 'congrats you\'ve reached the no return point,\ni will make you and your files suffer now,\nunless...')
 
-inn = input('stop maybe?, {}/{} '.format(random.choice(no[1:]), random.choice(no[1:]))).lower()
+mb.askyesno('stop maybe?', 'if you do this it\'s on you\ncontinue?')
 
 mb.showinfo('lol', 'hahaha\ndid you really think that you can stop now?')
 killer.pfr()
