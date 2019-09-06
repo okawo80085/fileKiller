@@ -50,7 +50,7 @@ for que, rep in warns.items():
 
 	if inn != rep:
 		mb.showinfo('good choice!', 'your files will be safe for now')
-		#sys.exit()
+		sys.exit()
 
 mb.showwarning('last warning', 'all your files in\n"{}"\nwill be gone'.format(loc))
 
@@ -58,7 +58,7 @@ inn = mb.askyesno('last try, stop?', 'you won\'t get another chance')
 
 if inn != no:
 	mb.showinfo('good choice!', 'your files will be safe for now')
-	#sys.exit()
+	sys.exit()
 
 mb.showinfo('that\'s it, you\'ve done it', 'congrats you\'ve reached the no return point,\ni will make you and your files suffer now,\nunless...')
 
@@ -74,6 +74,14 @@ if fireInTheHole:
 
 #end
 print ('\n\n')
-opReport = '{:=^60}'.format(' report start ') + '\noperation status: {}'.format(opStat) + '\nagent stats after the operation:\n{}'.format(killer) + '\ndata destroyed in operation: {}'.format(killer.kills) + '\ntargets left: {}'.format(len(killer.Files) + len(killer.Folders)) + '\n{:=^60}'.format(' report end ')
+opReport = '{:=^80}'.format(' report start ') + '\noperation status: {}'.format(opStat) + '\nagent stats after the operation:\n{}'.format(killer) + '\ndata destroyed in operation: {}'.format(killer.kills) + '\ntargets left: {}'.format(len(killer.Files) + len(killer.Folders))
 
-mb.showinfo('thats it, have a bad day!', opReport)
+text = tk.Text(root)
+text.insert(tk.INSERT, opReport)
+text.insert(tk.END, '\n{:=^80}'.format(' report end '))
+text.pack()
+
+root.title('operation report')
+root.deiconify()
+
+mb.showinfo('have a bad day!', 'click ok to exit')
