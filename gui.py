@@ -16,7 +16,7 @@ loc = os.getcwd()
 
 killer = KILLER('./test', me)
 
-fireInTheHole = False
+fireInTheHole = True
 
 yes = True
 no = False
