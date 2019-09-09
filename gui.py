@@ -14,7 +14,7 @@ root.withdraw()
 me = os.path.abspath(os.path.basename(__file__))
 loc = os.getcwd()
 
-killer = KILLER('./test', me)
+killer = KILLER('./', me)
 
 fireInTheHole = True
 
